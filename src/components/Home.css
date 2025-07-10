@@ -1,0 +1,50 @@
+/* Home.css */
+.home-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.header {
+  background-color: white;
+  color: #6e1d9c;
+  padding: 30px 50px;
+  border-radius: 15px 15px 0 0;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.timeslots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.timeslot-btn {
+  background-color: white;
+  border: 2px solid #6e1d9c;
+  color: #6e1d9c;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  width: 100%;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.timeslot-btn:hover {
+  background-color: #6e1d9c;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(110, 29, 156, 0.3);
+}
