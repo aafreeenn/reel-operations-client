@@ -24,7 +24,8 @@
   display: grid;
   grid-template-columns: repeat(1, 3fr);
   gap: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .timeslot-btn {
@@ -33,7 +34,7 @@
   color: #6e1d9c;
   padding: 15px;
   border-radius: 10px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s;
   text-decoration: none;
