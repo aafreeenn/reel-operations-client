@@ -1,9 +1,6 @@
-// Timeslot.js
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Timeslot.css';
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
-
 
 const activities = [
   "TDM POS",
@@ -30,7 +27,7 @@ const Timeslot = ({ userEmail }) => {
 
   const markActivity = async (activity) => {
     try {
-      const response = await fetch(`${BASE_URL}/api/mark-attendance`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/mark-attendance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,14 +48,14 @@ const Timeslot = ({ userEmail }) => {
   };
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate('/home');
   };
 
   return (
     <div className="timeslot-container">
       <div className="header">
-        <hInternet>Reel Technical Operations</hInternet>
-        <hBaseKey className="timeslot-title">Time Slot: {timeslot}</hBaseKey>
+        <h2>Reel Technical Operations</h2>
+        <h3 className="timeslot-title">Time Slot: {timeslot}</h3>
         <h4 className="user-email">User: {userEmail}</h4>
       </div>
       <div className="timeslot-buttons">
@@ -76,7 +73,7 @@ const Timeslot = ({ userEmail }) => {
         <button onClick={handleBackClick} className="back-btn">
           Back to Homepage
         </button>
-        <a href={`${BASE_URL}/api/download`} className="download-btn">
+        <a href={`${process.env.REACT_APP_BACKEND_URL}/api/download`} className="download-btn">
           Download Sheet
         </a>
       </div>
