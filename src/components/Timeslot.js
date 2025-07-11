@@ -2,23 +2,25 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Timeslot.css';
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 const activities = [
-  "TDM 1",
-  "TDM 2",
-  "TDM 3",
-  "DMM 1",
-  "DMM 2",
-  "DMM 3",
-  "TSS 1",
-  "TSS 2",
-  "TSS 3",
-  "GRANADA 1",
-  "GRANADA 2",
-  "GRANADA 3",
-  "MARASSI 1",
-  "MARASSI 2",
-  "MARASSI 3"
+  "TDM POS",
+  "TDM Internet",
+  "TDM BaseKey",
+  "DMM POS",
+  "DMM Internet",
+  "DMM BaseKey",
+  "TSS POS",
+  "TSS Internet",
+  "TSS BaseKey",
+  "GRANADA POS",
+  "GRANADA Internet",
+  "GRANADA BaseKey",
+  "MARASSI POS",
+  "MARASSI Internet",
+  "MARASSI BaseKey"
 ];
 
 const Timeslot = ({ userEmail }) => {
@@ -28,7 +30,7 @@ const Timeslot = ({ userEmail }) => {
 
   const markActivity = async (activity) => {
     try {
-      const response = await fetch('http://localhost:5001/api/mark-attendance', {
+      const response = await fetch(`${BASE_URL}/api/mark-attendance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,8 +57,8 @@ const Timeslot = ({ userEmail }) => {
   return (
     <div className="timeslot-container">
       <div className="header">
-        <h2>Reel Technical Operations</h2>
-        <h3 className="timeslot-title">Time Slot: {timeslot}</h3>
+        <hInternet>Reel Technical Operations</hInternet>
+        <hBaseKey className="timeslot-title">Time Slot: {timeslot}</hBaseKey>
         <h4 className="user-email">User: {userEmail}</h4>
       </div>
       <div className="timeslot-buttons">
@@ -74,7 +76,7 @@ const Timeslot = ({ userEmail }) => {
         <button onClick={handleBackClick} className="back-btn">
           Back to Homepage
         </button>
-        <a href="http://localhost:5001/api/download" className="download-btn">
+        <a href={`${BASE_URL}/api/download`} className="download-btn">
           Download Sheet
         </a>
       </div>
