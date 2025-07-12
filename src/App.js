@@ -1,49 +1,47 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login';
-import Home from './components/Home';
-import Timeslot from './components/Timeslot';
-import './App.css';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Home.css';
 
-function App() {
-  const [userEmail, setUserEmail] = useState('');
+const Home = () => {
+  const navigate = useNavigate();
+
+  const getCurrentSlot = () => {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 14) return '7am';
+    if (hour >= 14 && hour < 22) return '3pm';
+    return '10pm';
+  };
+
+  const currentSlot = getCurrentSlot();
+
+  const handleTimeslotClick = (slot) => {
+    navigate(`/timeslot/${slot}`);
+  };
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            userEmail ? (
-              <Navigate to="/home" replace />
-            ) : (
-              <Login onLogin={(email) => setUserEmail(email)} />
-            )
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            userEmail ? (
-              <Home onTimeslotClick={(slot) => window.location.href = `/timeslot/${slot}`} />
-            ) : (
-              <Navigate to="/" replace />
-            )
-          }
-        />
-        <Route
-          path="/timeslot/:timeslot"
-          element={
-            userEmail ? (
-              <Timeslot userEmail={userEmail} />
-            ) : (
-              <Navigate to="/" replace />
-            )
-          }
-        />
-      </Routes>
-    </Router>
+    <div className="home-container">
+      <div className="header">
+        <h1>Reel Technical Operations</h1>
+      </div>
+      <div className="timeslots">
+        <button
+          onClick={() => handleTimeslotClick('7am')}
+          className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`} >
+          7 AM
+        </button>
+        <button
+          onClick={() => handleTimeslotClick('3pm')}
+          className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''}`} >
+          3 PM
+        </button>
+        <button
+          onClick={() => handleTimeslotClick('10pm')}
+          className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''}`} >
+          10 PM
+        </button>
+      </div>
+    </div>
   );
-}
+};
 
-export default App;
+export default Home;

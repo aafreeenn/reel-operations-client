@@ -1,8 +1,7 @@
-//Login.js
 import React, { useState } from 'react';
 import './Login.css';
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -17,11 +16,10 @@ const Login = ({ onLogin }) => {
     try {
       const response = await fetch(`${BASE_URL}/api/${mode}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await response.json();
       
       if (!response.ok) {
@@ -30,7 +28,7 @@ const Login = ({ onLogin }) => {
       }
       
       if (data.success) {
-        onLogin(email); // Pass email to parent component
+        onLogin(email);
       }
     } catch (error) {
       setError('An error occurred. Please try again.');

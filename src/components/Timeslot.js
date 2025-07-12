@@ -3,21 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './Timeslot.css';
 
 const activities = [
-  "TDM POS",
-  "TDM Internet",
-  "TDM BaseKey",
-  "DMM POS",
-  "DMM Internet",
-  "DMM BaseKey",
-  "TSS POS",
-  "TSS Internet",
-  "TSS BaseKey",
-  "GRANADA POS",
-  "GRANADA Internet",
-  "GRANADA BaseKey",
-  "MARASSI POS",
-  "MARASSI Internet",
-  "MARASSI BaseKey"
+  "TDM POS", "TDM Internet", "TDM BaseKey",
+  "DMM POS", "DMM Internet", "DMM BaseKey",
+  "TSS POS", "TSS Internet", "TSS BaseKey",
+  "GRANADA POS", "GRANADA Internet", "GRANADA BaseKey",
+  "MARASSI POS", "MARASSI Internet", "MARASSI BaseKey"
 ];
 
 const Timeslot = ({ userEmail }) => {
@@ -26,6 +16,13 @@ const Timeslot = ({ userEmail }) => {
   const [selectedActivities, setSelectedActivities] = useState([]);
 
   const markActivity = async (activity) => {
+    const alreadySelected = selectedActivities.includes(activity);
+    const newSelected = alreadySelected
+      ? selectedActivities.filter(a => a !== activity)
+      : [...selectedActivities, activity];
+
+    setSelectedActivities(newSelected);
+
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/mark-attendance`, {
         method: 'POST',
@@ -35,19 +32,35 @@ const Timeslot = ({ userEmail }) => {
         body: JSON.stringify({ 
           activity, 
           timeslot,
-          user: userEmail 
+          user: userEmail,
+          selected: !alreadySelected
         }),
       });
-      const data = await response.json();
-      if (data.success) {
-        setSelectedActivities(prev => [...prev, activity]);
-      }
     } catch (error) {
       console.error('Error marking activity:', error);
     }
   };
 
-  const handleBackClick = () => {
+  const handleBackClick = async () => {
+  const unselectedActivities = activities.filter(activity => !selectedActivities.includes(activity));
+
+  try {
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/unselected`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        timeslot,
+        user: userEmail,
+        unselected: unselectedActivities
+      }),
+    });
+  } catch (error) {
+    console.error('Error sending unselected activities:', error);
+  }
+
+
     navigate('/home');
   };
 
