@@ -1,12 +1,11 @@
+// src/components/Login.js
 import React, { useState } from 'react';
 import './Login.css';
-
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import axios from 'axios';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [mode, setMode] = useState('login');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -14,38 +13,25 @@ const Login = ({ onLogin }) => {
     setError('');
     
     try {
-      const response = await fetch(`${BASE_URL}/api/${mode}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {
+        email,
+        password
       });
-
-      const data = await response.json();
       
-      if (!response.ok) {
-        setError(data.error || 'An error occurred');
-        return;
-      }
-      
-      if (data.success) {
+      if (response.data.success) {
         onLogin(email);
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.');
+    } catch (err) {
+      setError('Login failed. Please try again.');
     }
-  };
-
-  const toggleMode = () => {
-    setMode(prev => prev === 'login' ? 'register' : 'login');
   };
 
   return (
     <div className="login-container">
+      <h1>Reel Technical Operations</h1>
       <div className="login-box">
-        <div className="logo-container">
-          <img src="reel-cinemas-logo.png" alt="Reel Technical Operations Logo" className="login-logo" />
-          <h1 className="login-title">LOGIN</h1>
-        </div>
+        <h2>Login</h2>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <input
@@ -54,27 +40,24 @@ const Login = ({ onLogin }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="login-input"
             />
           </div>
           <div className="form-group">
             <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="login-input"
-            />
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
           </div>
-          {error && <div className="error-message">{error}</div>}
-          <button type="submit" className="login-btn">
-            {mode === 'login' ? 'Log In' : 'Register'}
-          </button>
+          <button type="submit" className="login-button">Sign In</button>
+          <div className="register-button">
+            <button onClick={() => window.location.href = "/register"} className="register-btn">
+              Register
+            </button>
+          </div>
         </form>
-        <button onClick={toggleMode} className="toggle-btn">
-          {mode === 'login' ? 'Register New Account' : 'Back to Login'}
-        </button>
       </div>
     </div>
   );

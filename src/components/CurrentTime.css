@@ -1,0 +1,25 @@
+/* src/components/CurrentTime.css */
+.current-time-container {
+  background: #6e1d9c;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-display, .slot-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time-label, .slot-label {
+  font-weight: bold;
+}
+
+.time-value, .slot-value {
+  font-size: 1.2rem;
+}

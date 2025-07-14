@@ -1,6 +1,9 @@
 [build]
   command = "npm run build"
   publish = "build"
+  environment = [
+    "REACT_APP_API_URL"
+  ]
 
 [[redirects]]
   from = "/static/*"

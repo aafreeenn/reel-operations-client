@@ -1,47 +1,61 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Home.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import Home from './components/Home';
+import Timeslot from './components/Timeslot';
+import CurrentTime from './components/CurrentTime';
+import './App.css';
 
-const Home = () => {
-  const navigate = useNavigate();
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentTimeslot, setCurrentTimeslot] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
 
-  const getCurrentSlot = () => {
-    const hour = new Date().getHours();
-    if (hour >= 6 && hour < 14) return '7am';
-    if (hour >= 14 && hour < 22) return '3pm';
-    return '10pm';
+  const handleLogin = (email) => {
+    setIsLoggedIn(true);
+    setUserEmail(email);
   };
 
-  const currentSlot = getCurrentSlot();
+  const handleTimeslotClick = (timeslot) => {
+    setCurrentTimeslot(timeslot);
+  };
 
-  const handleTimeslotClick = (slot) => {
-    navigate(`/timeslot/${slot}`);
+  const handleBackClick = () => {
+    setCurrentTimeslot(null);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserEmail('');
+    setCurrentTimeslot(null);
   };
 
   return (
-    <div className="home-container">
-      <div className="header">
-        <h1>Reel Technical Operations</h1>
+    <Router>
+      <div className="app">
+        <CurrentTime />
+        {!isLoggedIn ? (
+          <Login onLogin={handleLogin} />
+        ) : !currentTimeslot ? (
+          <div className="home-wrapper">
+            <Home onTimeslotClick={handleTimeslotClick} />
+            <button 
+              onClick={handleLogout} 
+              className="logout-btn"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <Timeslot 
+            timeslot={currentTimeslot} 
+            onBackClick={handleBackClick}
+            userEmail={userEmail}
+          />
+        )}
       </div>
-      <div className="timeslots">
-        <button
-          onClick={() => handleTimeslotClick('7am')}
-          className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`} >
-          7 AM
-        </button>
-        <button
-          onClick={() => handleTimeslotClick('3pm')}
-          className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''}`} >
-          3 PM
-        </button>
-        <button
-          onClick={() => handleTimeslotClick('10pm')}
-          className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''}`} >
-          10 PM
-        </button>
-      </div>
-    </div>
+    </Router>
   );
-};
+}
 
-export default Home;
+export default App;

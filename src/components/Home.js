@@ -1,23 +1,23 @@
+// src/components/Home.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
-const Home = () => {
+const Home = ({ onTimeslotClick }) => {
   const navigate = useNavigate();
 
   const handleTimeslotClick = (slot) => {
-    navigate(`/timeslot/${slot}`);
+    onTimeslotClick(slot);
   };
 
-const getCurrentSlot = () => {
-  const hour = new Date().getHours();
-  if (hour >= 6 && hour < 14) return '7am';
-  if (hour >= 14 && hour < 22) return '3pm';
-  return '10pm';
-};
+  const getCurrentSlot = () => {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 14) return '7am';
+    if (hour >= 14 && hour < 22) return '3pm';
+    return '10pm';
+  };
 
-const currentSlot = getCurrentSlot();
-
+  const currentSlot = getCurrentSlot();
 
   return (
     <div className="home-container">
@@ -26,23 +26,24 @@ const currentSlot = getCurrentSlot();
       </div>
       <div className="timeslots">
         <button
-          onClick={() => navigate('/timeslot/7am')}
-          className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`} >
+          onClick={() => handleTimeslotClick('7am')}
+          className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`}
+        >
           7 AM
         </button>
         <button
-          onClick={() => navigate('/timeslot/7am')}
-          className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`} >
+          onClick={() => handleTimeslotClick('3pm')}
+          className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''}`}
+        >
           3 PM
         </button>
         <button
-          onClick={() => navigate('/timeslot/7am')}
-          className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`} >
+          onClick={() => handleTimeslotClick('10pm')}
+          className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''}`}
+        >
           10 PM
         </button>
       </div>
     </div>
   );
 };
-
-export default Home;

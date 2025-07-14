@@ -1,138 +1,126 @@
-/* Timeslot.css */
+/* src/components/Timeslot.css */
 .timeslot-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  text-align: center;
-}
-
-.header {
-  background-color: #6e1d9c;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #6e1d9c, #4a0d6e);
   color: white;
-  padding: 20px 10px;
-  border-radius: 10px 10px 0 0;
-  margin-bottom: 30px;
 }
 
-.header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: bold;
+.timeslot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
-.timeslot-title {
-  margin: 10px 0 0;
-  font-size: 1.5rem;
-  color: #f5f5f5;
+h1 {
+  text-align: center;
+  color: white;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.timeslot-buttons {
+h2 {
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.activity-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;  /* Increased gap between buttons */
-  margin-bottom: 10px;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.activity-btn {
-  background-color: white;
-  border: 2px solid #6e1d9c;
+.activity-button {
+  background: white;
   color: #6e1d9c;
-  padding: 12px;
+  padding: 1rem;
+  border: 2px solid #6e1d9c;
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s;
-  text-decoration: none;
-  font-weight: bold;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  min-height: 80px;
+  transition: all 0.3s ease;
+  min-height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
 }
 
-.activity-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #6e1d9c;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease-in-out;
+.activity-button:hover {
+  background: #f8f0ff;
+  transform: translateY(-2px);
 }
 
-.activity-btn.selected::before {
-  transform: scaleX(1);
-}
-
-.activity-btn:hover:not(.selected) {
+.activity-button.selected {
+  background: #6e1d9c;
   color: white;
+  border-color: #5a1689;
 }
 
-.activity-btn.selected {
-  color: white !important;
-  border: 2px solid #6e1d9c;
-  font-weight: 700;
-}
-.activity-btn:hover:not(.selected) {
-  background-color: #6e1d9c;
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(110, 29, 156, 0.3);
+.activity-button.selected:hover {
+  background: #5a1689;
+  transform: translateY(-2px);
 }
 
-.activity-btn.selected {
-  background-color: #6e1d9c !important;
-  color: white !important;
-  border: 2px solid #6e1d9c;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(110, 29, 156, 0.3);
-  font-weight: 700;
+.activity-button.deselected {
+  background: #f0f0f0;
+  color: #6e1d9c;
+  border-color: #ddd;
+}
+
+.activity-button.deselected:hover {
+  background: #e0e0e0;
+  transform: translateY(-2px);
 }
 
 .action-buttons {
   display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-  padding: 0 20px;
+  gap: 1rem;
+  justify-content: center;
 }
 
-.back-btn, .download-btn {
-  background-color: #6e1d9c;
+.back-button {
+  background: #4a0d6e;
   color: white;
-  padding: 10px 20px;
+  padding: 0.8rem 1.5rem;
   border: none;
-  border-radius: 10px;
-  margin: 0;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  transition: all 0.3s;
+  border-radius: 5px;
   font-size: 1rem;
-  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.download-btn {
-  background-color: white;
-  color: #6e1d9c;
-  border: 2px solid #6e1d9c;
+.back-button:hover {
+  background: #3a005e;
 }
 
-.back-btn:hover, .download-btn:hover {
-  background-color: #5a1886;
+.submit-button, .download-button {
+  background: #6e1d9c;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(110, 29, 156, 0.3);
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.user-email {
-  margin-top: 10px;
-  color: #6e1d9c;
-  font-size: 1.1rem;
-  font-weight: bold;
+.submit-button:hover, .download-button:hover {
+  background: #5a1689;
+  transform: translateY(-2px);
+}
+
+.submit-button:active, .download-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .activity-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
 }

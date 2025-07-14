@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+// src/components/Timeslot.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Timeslot.css';
 
-const activities = [
+const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
+  const [selectedActivities, setSelectedActivities] = useState([]);
+  const [deselectedActivities, setDeselectedActivities] = useState([]);
+
+  const activities = [
   "TDM POS", "TDM Internet", "TDM BaseKey",
   "DMM POS", "DMM Internet", "DMM BaseKey",
   "TSS POS", "TSS Internet", "TSS BaseKey",
@@ -10,85 +15,64 @@ const activities = [
   "MARASSI POS", "MARASSI Internet", "MARASSI BaseKey"
 ];
 
-const Timeslot = ({ userEmail }) => {
-  const { timeslot } = useParams();
-  const navigate = useNavigate();
-  const [selectedActivities, setSelectedActivities] = useState([]);
-
-  const markActivity = async (activity) => {
-    const alreadySelected = selectedActivities.includes(activity);
-    const newSelected = alreadySelected
-      ? selectedActivities.filter(a => a !== activity)
-      : [...selectedActivities, activity];
-
-    setSelectedActivities(newSelected);
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/mark-attendance`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          activity, 
-          timeslot,
-          user: userEmail,
-          selected: !alreadySelected
-        }),
-      });
-    } catch (error) {
-      console.error('Error marking activity:', error);
+  const handleActivityClick = (activity) => {
+    if (selectedActivities.includes(activity)) {
+      // If activity is already selected, deselect it
+      setSelectedActivities(prev => prev.filter(a => a !== activity));
+      setDeselectedActivities(prev => [...prev, activity]);
+    } else {
+      // If activity is deselected, remove it from deselected list
+      setDeselectedActivities(prev => prev.filter(a => a !== activity));
+      setSelectedActivities(prev => [...prev, activity]);
     }
   };
 
-  const handleBackClick = async () => {
-  const unselectedActivities = activities.filter(activity => !selectedActivities.includes(activity));
-
-  try {
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/unselected`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+  const handleSubmit = async () => {
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/mark-attendance`, {
         timeslot,
-        user: userEmail,
-        unselected: unselectedActivities
-      }),
-    });
-  } catch (error) {
-    console.error('Error sending unselected activities:', error);
-  }
-
-
-    navigate('/home');
+        selected: selectedActivities,
+        deselected: deselectedActivities,
+        user: userEmail
+      });
+      onBackClick();
+    } catch (error) {
+      console.error('Error submitting attendance:', error);
+    }
   };
 
   return (
     <div className="timeslot-container">
-      <div className="header">
-        <h2>Reel Technical Operations</h2>
-        <h3 className="timeslot-title">Time Slot: {timeslot}</h3>
-        <h4 className="user-email">User: {userEmail}</h4>
+      <h1>Mark Attendance</h1>
+      <div className="timeslot-header">
+        <h2>Time Slot: {timeslot}</h2>
+        <button className="back-button" onClick={onBackClick}>
+          Back to Home
+        </button>
       </div>
-      <div className="timeslot-buttons">
+      
+      <div className="activity-grid">
         {activities.map((activity, index) => (
           <button
             key={index}
-            onClick={() => markActivity(activity)}
-            className={`activity-btn ${selectedActivities.includes(activity) ? 'selected' : ''}`}
+            className={`activity-button ${
+              selectedActivities.includes(activity) ? 'selected' : 
+              deselectedActivities.includes(activity) ? 'deselected' : ''
+            }`}
+            onClick={() => handleActivityClick(activity)}
           >
             {activity}
           </button>
         ))}
       </div>
+
       <div className="action-buttons">
-        <button onClick={handleBackClick} className="back-btn">
-          Back to Homepage
+        <button className="submit-button" onClick={handleSubmit}>
+          Submit Attendance
         </button>
-        <a href={`${process.env.REACT_APP_BACKEND_URL}/api/download`} className="download-btn">
-          Download Sheet
-        </a>
+        <button className="download-button" onClick={() => window.location.href = `${process.env.REACT_APP_API_URL}/api/download`}>
+          Download Report
+        </button>
       </div>
     </div>
   );
