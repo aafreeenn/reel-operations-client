@@ -59,22 +59,23 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
   };
 
   const handleDownload = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/api/download`);
-      if (!response.ok) throw new Error('Network response was not ok');
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'attendance_report.csv';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      alert('Error downloading report. Please try again.');
-    }
-  };
+  try {
+    const response = await fetch(`${BASE_URL}/api/download`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'attendance_report.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    alert(`Error downloading report: ${error.message}`);
+  }
+};
+
 
   return (
     <div className="timeslot-container">
