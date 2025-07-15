@@ -1,50 +1,56 @@
 /* src/components/Timeslot.css */
 .timeslot-container {
   min-height: 100vh;
-  padding: 2rem;
-  background: linear-gradient(135deg, #6e1d9c, #4a0d6e);
-  color: white;
+  padding: 20px;
+  background: white;
 }
 
 .timeslot-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #6e1d9c 0%, #4a0d6e 100%);
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  text-align: center;
-  color: white;
-  margin-bottom: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 h2 {
-  color: white;
-  margin-bottom: 1.5rem;
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
 }
 
 .activity-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .activity-button {
   background: white;
   color: #6e1d9c;
-  padding: 1rem;
+  padding: 15px;
   border: 2px solid #6e1d9c;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 10px;
+  font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  min-height: 100px;
+  transition: all 0.3s;
+  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 600;
 }
 
 .activity-button:hover {
@@ -71,56 +77,76 @@ h2 {
 
 .activity-button.deselected:hover {
   background: #e0e0e0;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .action-buttons {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
 }
 
-.back-button {
-  background: #4a0d6e;
-  color: white;
-  padding: 0.8rem 1.5rem;
+.submit-btn,
+.download-btn {
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 14px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s;
+  font-weight: 600;
 }
 
-.back-button:hover {
-  background: #3a005e;
-}
-
-.submit-button, .download-button {
-  background: #6e1d9c;
+.submit-btn {
+  background: linear-gradient(135deg, #6e1d9c 0%, #4a0d6e 100%);
   color: white;
-  padding: 0.8rem 2rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.submit-button:hover, .download-button:hover {
-  background: #5a1689;
+.submit-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(110, 29, 156, 0.2);
 }
 
-.submit-button:active, .download-button:active {
-  transform: translateY(0);
+.download-btn {
+  background: #f8f0ff;
+  color: #6e1d9c;
+  border: 1px solid #6e1d9c;
+}
+
+.download-btn:hover {
+  background: #f0e8ff;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
-  .activity-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .timeslot-container {
+    padding: 15px;
   }
-  
+
+  .timeslot-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .activity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-button {
+    font-size: 14px;
+    padding: 12px;
+  }
+
   .action-buttons {
     flex-direction: column;
+    gap: 10px;
+  }
+
+  .submit-btn,
+  .download-btn {
+    width: 100%;
+    padding: 12px;
   }
 }
