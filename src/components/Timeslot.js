@@ -60,7 +60,7 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
 
   const handleDownload = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/api/download`);
+    const response = await fetch(`${BASE_URL}/api/download-report`);
     if (!response.ok) throw new Error('Network response was not ok');
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
@@ -72,9 +72,10 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
     a.remove();
     window.URL.revokeObjectURL(url);
   } catch (error) {
-    alert(`Error downloading report: ${error.message}`);
+    alert('Error downloading report. Please try again.');
   }
 };
+
 
 
   return (
