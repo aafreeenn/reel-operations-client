@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Timeslot.css';
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 const activities = [
   "TDM POS", "TDM Internet", "TDM BaseKey",
   "DMM POS", "DMM Internet", "DMM BaseKey",
@@ -34,7 +36,7 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/mark-attendance`, {
+      const response = await fetch(`${BASE_URL}/api/mark-attendance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,7 +62,8 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/download-report`);
+      const response = await fetch(`${BASE_URL}/api/download-report`);
+      if (!response.ok) throw new Error('Network response was not ok');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -68,6 +71,7 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
       a.download = 'attendance_report.csv';
       document.body.appendChild(a);
       a.click();
+      a.remove();
       window.URL.revokeObjectURL(url);
     } catch (error) {
       alert('Error downloading report. Please try again.');
@@ -87,7 +91,7 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
       </div>
 
       <div className="activity-grid">
-        {activities.map((activity, index) => (
+        {activities.map((activity) => (
           <button
             key={activity}
             onClick={() => toggleActivity(activity)}
@@ -114,20 +118,3 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
 };
 
 export default Timeslot;
-
-
-
-
-
-
-
-/*
-const activities = [
-  "TDM POS", "TDM Internet", "TDM BaseKey",
-  "DMM POS", "DMM Internet", "DMM BaseKey",
-  "TSS POS", "TSS Internet", "TSS BaseKey",
-  "GRANADA POS", "GRANADA Internet", "GRANADA BaseKey",
-  "MARASSI POS", "MARASSI Internet", "MARASSI BaseKey"
-];
-
-*/ 
