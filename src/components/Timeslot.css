@@ -32,15 +32,16 @@ h2 {
 
 .activity-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 30px;
 }
 
+/* src/components/Timeslot.css */
 .activity-button {
   background: white;
   color: #6e1d9c;
-  padding: 15px;
+  padding: 20px;
   border: 2px solid #6e1d9c;
   border-radius: 10px;
   font-size: 16px;
@@ -51,102 +52,55 @@ h2 {
   align-items: center;
   justify-content: center;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.activity-button:hover {
+.activity-button:hover:not(.selected):not(.deselected) {
   background: #f8f0ff;
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .activity-button.selected {
   background: #6e1d9c;
   color: white;
   border-color: #5a1689;
+  box-shadow: 0 5px 15px rgba(110, 29, 156, 0.3);
 }
 
 .activity-button.selected:hover {
   background: #5a1689;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .activity-button.deselected {
   background: #f0f0f0;
   color: #6e1d9c;
-  border-color: #ddd;
+  border: 2px solid #800080; /* Purple border */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .activity-button.deselected:hover {
   background: #e0e0e0;
   transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 .action-buttons {
   display: flex;
   gap: 15px;
   margin-top: 20px;
+  justify-content: center;
 }
 
-.submit-btn,
-.download-btn {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-weight: 600;
-}
-
-.submit-btn {
-  background: linear-gradient(135deg, #6e1d9c 0%, #4a0d6e 100%);
-  color: white;
-}
-
-.submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(110, 29, 156, 0.2);
-}
-
-.download-btn {
+.back-btn {
+  padding: 12px 25px;
   background: #f8f0ff;
   color: #6e1d9c;
   border: 1px solid #6e1d9c;
-}
-
-.download-btn:hover {
-  background: #f0e8ff;
-  transform: translateY(-1px);
-}
-
-@media (max-width: 768px) {
-  .timeslot-container {
-    padding: 15px;
-  }
-
-  .timeslot-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
-    padding: 15px;
-  }
-
-  .activity-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .activity-button {
-    font-size: 14px;
-    padding: 12px;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .submit-btn,
-  .download-btn {
-    width: 100%;
-    padding: 12px;
-  }
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
 }
