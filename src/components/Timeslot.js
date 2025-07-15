@@ -14,12 +14,6 @@ const activities = [
 
 const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
   const navigate = useNavigate();
-
-  const handleBack = () => {
-    onBackClick();
-    navigate('/home');
-  };
-
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [deselectedActivities, setDeselectedActivities] = useState([]);
 
@@ -49,14 +43,13 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
         body: JSON.stringify({
           timeslot,
           userEmail,
-          selectedActivities,
-          deselectedActivities
+          selectedActivities, // sending only selected activities now
         }),
       });
 
       if (response.ok) {
         alert('Attendance marked successfully!');
-        handleBack();  // Use handleBack to go back & reset
+        onBackClick();
       } else {
         alert('Failed to mark attendance. Please try again.');
       }
@@ -90,7 +83,7 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
           <h1>Mark Attendance</h1>
           <h2>{timeslot}</h2>
         </div>
-        <button onClick={handleBack} className="back-btn">
+        <button onClick={() => { onBackClick(); navigate('/home'); }} className="back-btn">
           Back to Home
         </button>
       </div>
