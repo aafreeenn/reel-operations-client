@@ -1,5 +1,6 @@
+// src/App.js
 import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home';
 import Timeslot from './components/Timeslot';
@@ -34,25 +35,22 @@ function App() {
     <Router>
       <div className="app">
         <CurrentTime />
-        {!isLoggedIn ? (
-          <Login onLogin={handleLogin} />
-        ) : !currentTimeslot ? (
-          <div className="home-wrapper">
-            <Home onTimeslotClick={handleTimeslotClick} />
-            <button 
-              onClick={handleLogout} 
-              className="logout-btn"
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <Timeslot 
-            timeslot={currentTimeslot} 
-            onBackClick={handleBackClick}
-            userEmail={userEmail}
+        <Routes>
+          <Route path="/" element={!isLoggedIn ? <Login onLogin={handleLogin} /> : <Navigate to="/home" />} />
+          <Route path="/home" element={isLoggedIn ? <Home onTimeslotClick={handleTimeslotClick} /> : <Navigate to="/" />} />
+          <Route 
+            path="/timeslot/:slot" 
+            element={isLoggedIn ? (
+              <Timeslot 
+                timeslot={currentTimeslot} 
+                onBackClick={handleBackClick}
+                userEmail={userEmail}
+              />
+            ) : (
+              <Navigate to="/" />
+            )}
           />
-        )}
+        </Routes>
       </div>
     </Router>
   );
