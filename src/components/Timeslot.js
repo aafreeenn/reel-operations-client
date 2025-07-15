@@ -1,4 +1,3 @@
-// src/components/Timeslot.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Timeslot.css';
@@ -15,6 +14,12 @@ const activities = [
 
 const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
   const navigate = useNavigate();
+
+  const handleBack = () => {
+    onBackClick();
+    navigate('/home');
+  };
+
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [deselectedActivities, setDeselectedActivities] = useState([]);
 
@@ -51,7 +56,7 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
 
       if (response.ok) {
         alert('Attendance marked successfully!');
-        onBackClick();
+        handleBack();  // Use handleBack to go back & reset
       } else {
         alert('Failed to mark attendance. Please try again.');
       }
@@ -62,7 +67,7 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/download-report`);
+      const response = await fetch(`${BASE_URL}/api/download`);
       if (!response.ok) throw new Error('Network response was not ok');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
@@ -85,7 +90,7 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
           <h1>Mark Attendance</h1>
           <h2>{timeslot}</h2>
         </div>
-        <button onClick={onBackClick} className="back-btn">
+        <button onClick={handleBack} className="back-btn">
           Back to Home
         </button>
       </div>
