@@ -47,3 +47,5 @@ const Home = ({ onTimeslotClick }) => {
     </div>
   );
 };
+
+export default Home;
