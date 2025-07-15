@@ -5,39 +5,80 @@
   right: 20px;
   background: rgba(255, 255, 255, 0.95);
   padding: 15px 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(110, 29, 156, 0.2);
   display: flex;
-  gap: 30px;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   z-index: 1000;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(110, 29, 156, 0.1);
+  min-width: 190px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .time-display,
 .slot-display {
   display: flex;
-  gap: 10px;
-  align-items: center;
+  flex-direction: column;
+  margin-bottom: 8px;
 }
 
 .time-label,
 .slot-label {
   color: #6e1d9c;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  margin-bottom: 2px;
 }
 
 .time-value,
 .slot-value {
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #333;
+  letter-spacing: 0.5px;
 }
 
+/* Optional glowing dot indicator (slot color) */
+.slot-value::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #6e1d9c;
+  margin-right: 6px;
+  margin-bottom: 2px;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
   .current-time-container {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    width: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 20px;
+  }
+
+  .time-display,
+  .slot-display {
+    margin-bottom: 0;
+  }
+
+  .time-label,
+  .slot-label {
+    font-size: 0.85rem;
+  }
+
+  .time-value,
+  .slot-value {
+    font-size: 1.1rem;
   }
 }

@@ -2,105 +2,149 @@
 .timeslot-container {
   min-height: 100vh;
   padding: 20px;
-  background: white;
+  background: linear-gradient(to bottom right, #ffffff, #f8f0ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .timeslot-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  padding: 20px;
   background: linear-gradient(135deg, #6e1d9c 0%, #4a0d6e 100%);
   color: white;
+  padding: 20px 30px;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(110, 29, 156, 0.3);
 }
 
-h1 {
+.timeslot-header h1 {
   margin: 0;
   font-size: 24px;
   font-weight: 700;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-h2 {
+.timeslot-header h2 {
   font-size: 18px;
-  margin: 0;
+  margin: 5px 0 0;
   font-weight: 600;
+}
+
+.back-btn {
+  padding: 10px 20px;
+  background: #ffffff;
+  color: #6e1d9c;
+  border: 2px solid #6e1d9c;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.back-btn:hover {
+  background: #f4e8ff;
+  transform: translateY(-2px);
 }
 
 .activity-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 15px;
+  width: 100%;
+  max-width: 900px;
   margin-bottom: 30px;
 }
 
-/* src/components/Timeslot.css */
 .activity-button {
   background: white;
   color: #6e1d9c;
-  padding: 20px;
+  padding: 18px;
   border: 2px solid #6e1d9c;
   border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s;
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
 }
 
 .activity-button:hover:not(.selected):not(.deselected) {
-  background: #f8f0ff;
+  background: #f3e6ff;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 15px rgba(110, 29, 156, 0.2);
 }
 
 .activity-button.selected {
   background: #6e1d9c;
   color: white;
   border-color: #5a1689;
-  box-shadow: 0 5px 15px rgba(110, 29, 156, 0.3);
+  box-shadow: 0 6px 18px rgba(110, 29, 156, 0.3);
 }
 
 .activity-button.selected:hover {
   background: #5a1689;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 .activity-button.deselected {
-  background: #f0f0f0;
+  background: #f4f4f4;
   color: #6e1d9c;
-  border: 2px solid #800080; /* Purple border */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 2px dashed #6e1d9c;
 }
 
 .activity-button.deselected:hover {
-  background: #e0e0e0;
+  background: #eaeaea;
   transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
 .action-buttons {
   display: flex;
+  flex-direction: column;
   gap: 15px;
+  width: 100%;
+  max-width: 900px;
+  align-items: center;
   margin-top: 20px;
-  justify-content: center;
 }
 
-.back-btn {
-  padding: 12px 25px;
-  background: #f8f0ff;
-  color: #6e1d9c;
-  border: 1px solid #6e1d9c;
+.download-btn,
+.submit-btn {
+  padding: 14px 30px;
+  font-size: 15px;
+  font-weight: 600;
   border-radius: 8px;
-  font-size: 14px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+}
+
+.download-btn {
+  background: #ffffff;
+  border: 2px solid #6e1d9c;
+  color: #6e1d9c;
+}
+
+.download-btn:hover {
+  background: #f9f0ff;
+  transform: translateY(-2px);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #6e1d9c 0%, #4a0d6e 100%);
+  color: white;
+  border: none;
+}
+
+.submit-btn:hover {
+  background: #5a1689;
+  transform: translateY(-2px);
 }
