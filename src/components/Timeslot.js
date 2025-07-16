@@ -1,8 +1,8 @@
+// src/components/Timeslot.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './Timeslot.css';
-
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { BASE_URL } from '../constants';
 
 const activities = [
   "TDM POS", "TDM Internet", "TDM BaseKey",
@@ -12,10 +12,11 @@ const activities = [
   "MARASSI POS", "MARASSI Internet", "MARASSI BaseKey"
 ];
 
-const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
+const Timeslot = ({ timeslot, onBackClick, userType }) => {
   const navigate = useNavigate();
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [deselectedActivities, setDeselectedActivities] = useState([]);
+  const [technicianName, setTechnicianName] = useState('');
 
   const toggleActivity = (activity) => {
     if (selectedActivities.includes(activity)) {
@@ -34,6 +35,11 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
   };
 
   const handleSubmit = async () => {
+    if (!technicianName.trim()) {
+      alert('Please enter your name');
+      return;
+    }
+
     try {
       const response = await fetch(`${BASE_URL}/api/mark-attendance`, {
         method: 'POST',
@@ -42,14 +48,15 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
         },
         body: JSON.stringify({
           timeslot,
-          userEmail,
-          selectedActivities, // sending only selected activities now
+          userEmail: technicianName,
+          selectedActivities,
         }),
       });
 
       if (response.ok) {
         alert('Attendance marked successfully!');
         onBackClick();
+        navigate('/home');
       } else {
         alert('Failed to mark attendance. Please try again.');
       }
@@ -59,24 +66,22 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
   };
 
   const handleDownload = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}/api/download-report`);
-    if (!response.ok) throw new Error('Network response was not ok');
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'attendance_report.csv';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    alert('Error downloading report. Please try again.');
-  }
-};
-
-
+    try {
+      const response = await fetch(`${BASE_URL}/api/download-report`);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'attendance_report.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      alert('Error downloading report. Please try again.');
+    }
+  };
 
   return (
     <div className="timeslot-container">
@@ -85,9 +90,14 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
           <h1>Mark Attendance</h1>
           <h2>{timeslot}</h2>
         </div>
-        <button onClick={() => { onBackClick(); navigate('/home'); }} className="back-btn">
-          Back to Home
-        </button>
+        <div className="action-buttons">
+          <button onClick={handleDownload} className="download-btn">
+            Download Report
+          </button>
+          <button onClick={() => { onBackClick(); navigate('/home'); }} className="back-btn">
+            Back to Home
+          </button>
+        </div>
       </div>
 
       <div className="activity-grid">
@@ -105,12 +115,20 @@ const Timeslot = ({ timeslot, onBackClick, userEmail }) => {
         ))}
       </div>
 
-      <div className="action-buttons">
-        <button onClick={handleDownload} className="download-btn">
-          Download Report
-        </button>
+      <div className="name-input-container">
+        <input
+          type="text"
+          placeholder="Enter Name"
+          value={technicianName}
+          onChange={(e) => setTechnicianName(e.target.value)}
+          className="name-input"
+          required
+        />
+      </div>
+
+      <div className="submit-container">
         <button onClick={handleSubmit} className="submit-btn">
-          Submit Attendance
+          Submit
         </button>
       </div>
     </div>
