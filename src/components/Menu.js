@@ -1,9 +1,20 @@
 // src/components/Menu.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Menu.css';
 
 const Menu = ({ onLogout, currentTimeslot, currentTime }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Call the parent's logout function if provided
+    if (onLogout) {
+      onLogout();
+    }
+    // Navigate back to the login page
+    navigate('/');
+  };
 
   return (
     <div className="menu-container">
@@ -26,7 +37,7 @@ const Menu = ({ onLogout, currentTimeslot, currentTime }) => {
             <span className="menu-value">{currentTimeslot}</span>
           </div>
           <button 
-            onClick={onLogout}
+            onClick={handleLogout}
             className="logout-btn"
           >
             Logout
@@ -38,4 +49,3 @@ const Menu = ({ onLogout, currentTimeslot, currentTime }) => {
 };
 
 export default Menu;
-
