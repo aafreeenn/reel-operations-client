@@ -8,17 +8,32 @@ const CurrentTime = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTime(new Date());
-      setCurrentSlot(getCurrentSlot());
+      const now = new Date();
+      setCurrentTime(now);
+      setCurrentSlot(getCurrentSlot(now));
     }, 1000);
     return () => clearInterval(timer);
   }, []);
 
-  const getCurrentSlot = () => {
-    const hour = new Date().getHours();
-    if (hour >= 6 && hour < 14) return '7 AM';
-    if (hour >= 14 && hour < 22) return '3 PM';
-    return '10 PM';
+  const getCurrentSlot = (date) => {
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    
+    // Adjust timeslot boundaries to be more precise
+    if (hour === 6 || (hour === 7 && minute < 30)) {
+      return '7 AM';
+    } else if (hour === 14 || (hour === 15 && minute < 30)) {
+      return '3 PM';
+    } else if (hour === 22 || (hour === 23 && minute < 30)) {
+      return '10 PM';
+    } else if (hour >= 7 && hour < 14) {
+      return '7 AM';
+    } else if (hour >= 15 && hour < 22) {
+      return '3 PM';
+    } else if (hour >= 23 || hour < 6) {
+      return '10 PM';
+    }
+    return 'Outside Working Hours';
   };
 
   const formatTime = (date) => {
