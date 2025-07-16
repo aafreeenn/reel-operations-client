@@ -1,7 +1,7 @@
 // src/components/UserTypeSelection.js
 import React from 'react';
 import './UserTypeSelection.css';
-import Menu from '../Menu';
+import Menu from './Menu';
 
 const UserTypeSelection = ({ onUserTypeSelect }) => {
   const handleLogout = () => {
