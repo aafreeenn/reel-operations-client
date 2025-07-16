@@ -21,31 +21,36 @@
   box-shadow: 0 6px 20px rgba(110, 29, 156, 0.3);
 }
 
-.timeslot-header h1 {
-  margin: 0;
-  font-size: 24px;
+.timeslot-title {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 20px 0;
+}
+
+.timeslot-title h1 {
+  font-size: 32px;
+  color: white;
   font-weight: 700;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.timeslot-header h2 {
-  font-size: 18px;
-  margin: 5px 0 0;
-  font-weight: 600;
-}
-
-.back-btn {
-  padding: 10px 20px;
+.back-btn,
+.download-btn {
+  padding: 11px 20px;
   background: #ffffff;
   color: #6e1d9c;
   border: 2px solid #6e1d9c;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s;
 }
 
-.back-btn:hover {
+.back-btn:hover,
+.download-btn:hover {
   background: #f4e8ff;
   transform: translateY(-2px);
 }
@@ -58,38 +63,21 @@
   margin-top: 20px;
 }
 
-.download-btn {
-  padding: 12px 25px;
-  background: #ffffff;
-  color: #6e1d9c;
-  border: 2px solid #6e1d9c;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  max-width: 250px;
-}
-
-.download-btn:hover {
-  background: #f9f0ff;
-  transform: translateY(-2px);
-}
-
 .activity-grid {
   display: grid;
   grid-template-columns: repeat(3, 5fr);
-  gap: 12px;
-  width: 100%;
+  gap: 16px;
+  width: 80%;
   padding: 0 10px;
   margin-bottom: 30px;
 }
 
+
 .activity-button {
-  background: white;
-  color: #6e1d9c;
+  background: #ede3f7; /* soft lavender */
+  color: #4a0d6e;
   padding: 16px;
-  border: 2px solid #6e1d9c;
+  border: 2px solid #5b0c94;
   border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
@@ -99,21 +87,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(110, 29, 156, 0.1);
 }
 
 .activity-button:hover:not(.selected):not(.deselected) {
-  background: #f3e6ff;
+  background: #b8a0ce; 
+  border-color: #5b0c94;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(110, 29, 156, 0.2);
+  box-shadow: 0 4px 12px rgba(110, 29, 156, 0.2);
 }
 
-.activity-button.selected {
-  background: #6e1d9c;
+
+
+.activity-button.active {
+  background: #357e3b; 
+  border-color: #1b4c1f;
   color: white;
-  border-color: #5a1689;
-  box-shadow: 0 6px 18px rgba(110, 29, 156, 0.3);
+}
+
+.activity-button.inactive {
+  background: #b12424; 
+  border-color: #811212;
+  color: white;
 }
 
 .activity-button.selected:hover {
@@ -121,15 +117,24 @@
   transform: translateY(-2px);
 }
 
-.activity-button.deselected {
-  background: #f4f4f4;
-  color: #6e1d9c;
-  border: 2px dashed #6e1d9c;
+.activity-button:disabled {
+  background: #b394d9;
+  border-color: #b394d9;
+  color: white;
+  opacity: 0.8;
+  cursor: not-allowed;
 }
 
-.activity-button.deselected:hover {
-  background: #eaeaea;
-  transform: translateY(-1px);
+.activity-text {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.status-indicator {
+  font-size: 24px;
+  font-weight: bold;
+  display: block;
+  margin-top: 5px;
 }
 
 .name-input-container {
@@ -181,6 +186,12 @@
   transform: translateY(-2px);
 }
 
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #888;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .timeslot-header {
@@ -192,10 +203,6 @@
 
   .timeslot-header h1 {
     margin-bottom: 10px;
-  }
-
-  .timeslot-header h2 {
-    margin-top: 0;
   }
 
   .action-buttons {
@@ -226,5 +233,4 @@
     width: 100%;
     max-width: 250px;
   }
-
 }

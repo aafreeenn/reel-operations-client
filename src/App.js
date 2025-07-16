@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 import Timeslot from './components/Timeslot';
 import Menu from './components/Menu';
+// import Status from './components/Status';
 import './App.css';
 
 function App() {

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Timeslot.css';
+import StatusPopup from './Status';
 
 const activities = [
   "TDM POS", "TDM Internet", "TDM BaseKey",
@@ -13,29 +14,27 @@ const activities = [
 
 const Timeslot = ({ timeslot, onBackClick, userType }) => {
   const navigate = useNavigate();
-  const [selectedActivities, setSelectedActivities] = useState([]);
-  const [deselectedActivities, setDeselectedActivities] = useState([]);
+  const [selectedStatuses, setSelectedStatuses] = useState({});
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [currentActivity, setCurrentActivity] = useState('');
   const [technicianName, setTechnicianName] = useState('');
 
-  const toggleActivity = (activity) => {
-    if (selectedActivities.includes(activity)) {
-      setSelectedActivities(selectedActivities.filter(a => a !== activity));
-      if (!deselectedActivities.includes(activity)) {
-        setDeselectedActivities([...deselectedActivities, activity]);
-      }
-    } else if (deselectedActivities.includes(activity)) {
-      setDeselectedActivities(deselectedActivities.filter(a => a !== activity));
-      if (!selectedActivities.includes(activity)) {
-        setSelectedActivities([...selectedActivities, activity]);
-      }
-    } else {
-      setSelectedActivities([...selectedActivities, activity]);
-    }
+  const handleStatusSelect = (activity, status) => {
+    setSelectedStatuses(prev => ({
+      ...prev,
+      [activity]: status
+    }));
   };
 
   const handleSubmit = async () => {
     if (!technicianName.trim()) {
       alert('Please enter your name');
+      return;
+    }
+
+    // Check if all activities have a status
+    if (Object.keys(selectedStatuses).length !== activities.length) {
+      alert('Please select status for all activities');
       return;
     }
 
@@ -48,7 +47,7 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
         body: JSON.stringify({
           timeslot,
           userEmail: technicianName,
-          selectedActivities,
+          statuses: selectedStatuses,
         }),
       });
 
@@ -82,12 +81,28 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
     }
   };
 
+  const handleActivityClick = (activity) => {
+    setCurrentActivity(activity);
+    setIsPopupOpen(true);
+  };
+
+  const getStatusColor = (status) => {
+    if (status === 'active') return 'green';
+    if (status === 'inactive') return 'red';
+    return '#6e1d9c';
+  };
+
+  const getStatusText = (status) => {
+    if (status === 'active') return '✓';
+    if (status === 'inactive') return '✗';
+    return '';
+  };
+
   return (
     <div className="timeslot-container">
       <div className="timeslot-header">
-        <div>
-          <h1>Mark Attendance</h1>
-          <h2>{timeslot}</h2>
+        <div className="timeslot-title">
+          <h1>{timeslot}</h1>
         </div>
         <div className="action-buttons">
           <button onClick={handleDownload} className="download-btn">
@@ -103,13 +118,14 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
         {activities.map((activity) => (
           <button
             key={activity}
-            onClick={() => toggleActivity(activity)}
-            className={`activity-button ${
-              selectedActivities.includes(activity) ? 'selected' :
-              deselectedActivities.includes(activity) ? 'deselected' : ''
-            }`}
+            onClick={() => handleActivityClick(activity)}
+            className={`activity-button ${selectedStatuses[activity] || ''}`}
           >
-            {activity}
+
+            <span className="activity-text">{activity}</span>
+            <span className="status-indicator">
+              {getStatusText(selectedStatuses[activity])}
+            </span>
           </button>
         ))}
       </div>
@@ -126,10 +142,21 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
       </div>
 
       <div className="submit-container">
-        <button onClick={handleSubmit} className="submit-btn">
+        <button 
+          onClick={handleSubmit} 
+          className="submit-btn"
+          disabled={Object.keys(selectedStatuses).length !== activities.length}
+        >
           Submit
         </button>
       </div>
+
+      <StatusPopup
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        onStatusSelect={handleStatusSelect}
+        activity={currentActivity}
+      />
     </div>
   );
 };
