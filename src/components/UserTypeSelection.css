@@ -8,6 +8,22 @@
   padding: 20px;
 }
 
+.company-title {
+  font-size: 24px;
+  color: #6e1d9c;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.login-title {
+  font-size: 20px;
+  color: #6e1d9c;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
 .user-type-box {
   background: #fff;
   padding: 40px 30px;
