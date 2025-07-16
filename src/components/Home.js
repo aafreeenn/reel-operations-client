@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
-const Home = ({ onTimeslotClick }) => {
+const Home = ({ userType, onTimeslotClick }) => {
   const navigate = useNavigate();
 
   const getCurrentSlot = () => {
@@ -32,6 +32,7 @@ const Home = ({ onTimeslotClick }) => {
     <div className="home-container">
       <div className="header">
         <h1>Reel Technical Operations</h1>
+        <p className="user-type">{userType.toUpperCase()}</p>
       </div>
       <div className="timeslots">
         <button

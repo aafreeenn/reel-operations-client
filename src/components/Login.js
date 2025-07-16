@@ -1,12 +1,10 @@
-// Login.js
+// src/components/Login.js
 import React, { useState } from 'react';
 import './Login.css';
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
-const Login = ({ onLogin }) => {
-  const [email, setEmail] = useState('');
+const Login = ({ userType, onLogin }) => {
   const [password, setPassword] = useState('');
-  const [mode, setMode] = useState('login');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -14,32 +12,27 @@ const Login = ({ onLogin }) => {
     setError('');
     
     try {
-      // Fixed template literal syntax
-      const response = await fetch(`${BASE_URL}/api/${mode}`, {
+      const response = await fetch(`${BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ userType, password }),
       });
       
       const data = await response.json();
       
       if (!response.ok) {
-        setError(data.error || 'An error occurred');
+        setError(data.error || 'Invalid password');
         return;
       }
       
       if (data.success) {
-        onLogin(email);
+        onLogin(data.userType);
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
     }
-  };
-
-  const toggleMode = () => {
-    setMode(prev => prev === 'login' ? 'register' : 'login');
   };
 
   return (
@@ -47,19 +40,9 @@ const Login = ({ onLogin }) => {
       <div className="login-box">
         <div className="logo-container">
           <img src="reel-cinemas-logo.png" alt="Reel Technical Operations Logo" className="login-logo" />
-          <h1 className="login-title">LOGIN</h1>
+          <h1 className="login-title">{userType.toUpperCase()}</h1>
         </div>
         <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="login-input"
-            />
-          </div>
           <div className="form-group">
             <input
               type="password"
@@ -72,12 +55,9 @@ const Login = ({ onLogin }) => {
           </div>
           {error && <div className="error-message">{error}</div>}
           <button type="submit" className="login-btn">
-            {mode === 'login' ? 'Log In' : 'Register'}
+            Sign In
           </button>
         </form>
-        <button onClick={toggleMode} className="toggle-btn">
-          {mode === 'login' ? 'Register New Account' : 'Back to Login'}
-        </button>
       </div>
     </div>
   );

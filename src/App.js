@@ -1,6 +1,7 @@
 // src/App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import UserTypeSelection from './components/UserTypeSelection';
 import Login from './components/Login';
 import Home from './components/Home';
 import Timeslot from './components/Timeslot';
@@ -10,11 +11,16 @@ import './App.css';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentTimeslot, setCurrentTimeslot] = useState(null);
+  const [userType, setUserType] = useState(null);
   const [userEmail, setUserEmail] = useState('');
 
-  const handleLogin = (email) => {
+  const handleUserTypeSelect = (type) => {
+    setUserType(type);
+  };
+
+  const handleLogin = (type) => {
     setIsLoggedIn(true);
-    setUserEmail(email);
+    setUserType(type);
   };
 
   const handleTimeslotClick = (timeslot) => {
@@ -27,6 +33,7 @@ function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setUserType(null);
     setUserEmail('');
     setCurrentTimeslot(null);
   };
@@ -36,19 +43,41 @@ function App() {
       <div className="app">
         <CurrentTime />
         <Routes>
-          <Route path="/" element={!isLoggedIn ? <Login onLogin={handleLogin} /> : <Navigate to="/home" />} />
-          <Route path="/home" element={isLoggedIn ? <Home onTimeslotClick={handleTimeslotClick} /> : <Navigate to="/" />} />
-          <Route 
-            path="/timeslot/:slot" 
-            element={isLoggedIn ? (
-              <Timeslot 
-                timeslot={currentTimeslot} 
-                onBackClick={handleBackClick}
-                userEmail={userEmail}
+          <Route path="/" element={
+            !isLoggedIn ? (
+              !userType ? (
+                <UserTypeSelection onUserTypeSelect={handleUserTypeSelect} />
+              ) : (
+                <Login userType={userType} onLogin={handleLogin} />
+              )
+            ) : (
+              <Navigate to="/home" />
+            )
+          } />
+          <Route path="/home" element={
+            isLoggedIn ? (
+              <Home 
+                onTimeslotClick={handleTimeslotClick} 
+                userType={userType}
               />
             ) : (
               <Navigate to="/" />
-            )}
+            )
+          } />
+          <Route 
+            path="/timeslot/:slot" 
+            element={
+              isLoggedIn ? (
+                <Timeslot 
+                  timeslot={currentTimeslot} 
+                  onBackClick={handleBackClick}
+                  userType={userType}
+                  userEmail={userEmail}
+                />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
           />
         </Routes>
       </div>
