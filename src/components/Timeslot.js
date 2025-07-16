@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Timeslot.css';
-import { BASE_URL } from '../constants';
 
 const activities = [
   "TDM POS", "TDM Internet", "TDM BaseKey",
@@ -41,7 +40,7 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
     }
 
     try {
-      const response = await fetch(`${BASE_URL}/api/mark-attendance`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/mark-attendance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +66,7 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/download-report`);
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/download-report`);
       if (!response.ok) throw new Error('Network response was not ok');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
