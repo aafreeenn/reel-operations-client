@@ -10,6 +10,7 @@ const UserTypeSelection = ({ onUserTypeSelect }) => {
 
   return (
     <div className="user-type-container">
+      <h1 className="company-title">REEL TECHNICAL OPERATIONS</h1>   
       <Menu 
         onLogout={handleLogout} 
         currentTimeslot="Outside Working Hours"
@@ -20,17 +21,16 @@ const UserTypeSelection = ({ onUserTypeSelect }) => {
           hour12: true
         })}
       />
+      
       <div className="user-type-box">
-        <div className="logo-container">
-          <h1 className="company-title">Reel Technical Operations</h1>
+        <div className="logo-container"> 
           <img src="reel-cinemas-logo.png" alt="Reel Technical Operations Logo" className="login-logo" />
           <h2 className="login-title">LOGIN</h2>
         </div>
         <div className="user-type-buttons">
           <button 
             onClick={() => onUserTypeSelect('admin')}
-            className="user-type-btn admin-btn"
-          >
+            className="user-type-btn admin-btn">
             ADMIN
           </button>
           <button 

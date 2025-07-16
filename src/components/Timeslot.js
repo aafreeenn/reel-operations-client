@@ -27,41 +27,44 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
   };
 
   const handleSubmit = async () => {
-    if (!technicianName.trim()) {
-      alert('Please enter your name');
-      return;
-    }
+  if (!technicianName.trim()) {
+    alert('Please enter your name');
+    return;
+  }
 
-    // Check if all activities have a status
-    if (Object.keys(selectedStatuses).length !== activities.length) {
-      alert('Please select status for all activities');
-      return;
-    }
+  // Check if all activities have a status
+  if (Object.keys(selectedStatuses).length !== activities.length) {
+    alert('Please select status for all activities');
+    return;
+  }
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/mark-attendance`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          timeslot,
-          userEmail: technicianName,
-          statuses: selectedStatuses,
-        }),
-      });
+  try {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/mark-attendance`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        timeslot,
+        userEmail: technicianName,
+        statuses: selectedStatuses,  
+      }),
+    });
 
-      if (response.ok) {
-        alert('Attendance marked successfully!');
-        onBackClick();
-        navigate('/home');
-      } else {
-        alert('Failed to mark attendance. Please try again.');
-      }
-    } catch (error) {
-      alert('Error marking attendance. Please try again.');
+    if (response.ok) {
+      alert('Report submitted successfully!');
+      // Reset the form
+      setSelectedStatuses({});
+      setTechnicianName('');
+    } else {
+      const data = await response.json();
+      alert(data.error || 'Failed to submit. Please try again.');
     }
-  };
+  } catch (error) {
+    alert('Error in submission. Please try again.');
+  }
+};
+
 
   const handleDownload = async () => {
     try {

@@ -1,7 +1,10 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import './Login.css';
+import Menu from './Menu';
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
+
 
 const Login = ({ userType, onLogin }) => {
   const [password, setPassword] = useState('');
