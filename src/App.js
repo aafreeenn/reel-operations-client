@@ -1,11 +1,9 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import UserTypeSelection from './components/UserTypeSelection';
 import Login from './components/Login';
 import Home from './components/Home';
 import Timeslot from './components/Timeslot';
-//import CurrentTime from './components/CurrentTime';
 import Menu from './components/Menu';
 import './App.css';
 
@@ -73,7 +71,7 @@ function App() {
   return (
     <Router>
       <div className="app">
-        {/* Add the Menu component */}
+        {/* Only show menu when not on login page */}
         {isLoggedIn && (
           <Menu 
             onLogout={handleLogout} 
