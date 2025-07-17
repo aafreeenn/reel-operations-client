@@ -27,44 +27,42 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
   };
 
   const handleSubmit = async () => {
-  if (!technicianName.trim()) {
-    alert('Please enter your name');
-    return;
-  }
+    if (!technicianName.trim()) {
+      alert('Please enter your name');
+      return;
+    }
 
-  // Check if all activities have a status
-  if (Object.keys(selectedStatuses).length !== activities.length) {
-    alert('Please select status for all activities');
-    return;
-  }
+    if (Object.keys(selectedStatuses).length !== activities.length) {
+      alert('Please select status for all activities');
+      return;
+    }
 
-  try {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/mark-attendance`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        timeslot,
-        userEmail: technicianName,
-        statuses: selectedStatuses,  
-      }),
-    });
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/mark-attendance`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          timeslot,
+          userEmail: technicianName,
+          statuses: selectedStatuses,
+        }),
+      });
 
-    if (response.ok) {
-      alert('Report submitted successfully!');
-      // Reset the form
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to mark attendance');
+      }
+
+      alert('Attendance marked successfully!');
       setSelectedStatuses({});
       setTechnicianName('');
-    } else {
-      const data = await response.json();
-      alert(data.error || 'Failed to submit. Please try again.');
+    } catch (error) {
+      console.error('Error details:', error);
+      alert('Error marking attendance: ' + error.message);
     }
-  } catch (error) {
-    alert('Error in submission. Please try again.');
-  }
-};
-
+  };
 
   const handleDownload = async () => {
     try {
@@ -90,15 +88,9 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
   };
 
   const getStatusColor = (status) => {
-    if (status === 'active') return 'green';
-    if (status === 'inactive') return 'red';
-    return '#6e1d9c';
-  };
-
-  const getStatusText = (status) => {
-    if (status === 'active') return '✓';
-    if (status === 'inactive') return '✗';
-    return '';
+    if (status === 'active') return '#4CAF50'; // Green
+    if (status === 'inactive') return '#F44336'; // Red
+    return '#6e1d9c'; // Purple
   };
 
   return (
@@ -122,13 +114,13 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
           <button
             key={activity}
             onClick={() => handleActivityClick(activity)}
-            className={`activity-button ${selectedStatuses[activity] || ''}`}
+            className="activity-button"
+            style={{
+              backgroundColor: getStatusColor(selectedStatuses[activity]),
+              borderColor: getStatusColor(selectedStatuses[activity]),
+            }}
           >
-
-            <span className="activity-text">{activity}</span>
-            <span className="status-indicator">
-              {getStatusText(selectedStatuses[activity])}
-            </span>
+            {activity}
           </button>
         ))}
       </div>

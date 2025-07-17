@@ -125,17 +125,6 @@
   cursor: not-allowed;
 }
 
-.activity-text {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.status-indicator {
-  font-size: 24px;
-  font-weight: bold;
-  display: block;
-  margin-top: 5px;
-}
 
 .name-input-container {
   display: flex;
