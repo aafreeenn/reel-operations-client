@@ -4,6 +4,33 @@ import './Login.css';
 import Menu from './Menu';
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
+fetch(`${BASE_URL}/api/login`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    userType,
+    password
+  }),
+})
+  .then((res) => {
+    if (!res.ok) {
+      throw new Error("Login failed");
+    }
+    return res.json();
+  })
+  .then((data) => {
+    if (data.success) {
+      navigate("/home");
+    } else {
+      alert("Login failed. Please try again.");
+    }
+  })
+  .catch((error) => {
+    console.error("Login error:", error);
+    alert("An error occurred. Please try again.");
+  });
 
 
 const Login = ({ userType, onLogin }) => {
