@@ -1,96 +1,51 @@
-// src/components/Login.js
-import React, { useState } from 'react';
-import './Login.css';
-import Menu from './Menu';
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-fetch(`${BASE_URL}/api/login`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    userType,
-    password
-  }),
-})
-  .then((res) => {
-    if (!res.ok) {
-      throw new Error("Login failed");
-    }
-    return res.json();
-  })
-  .then((data) => {
-    if (data.success) {
-      navigate("/home");
-    } else {
-      alert("Login failed. Please try again.");
-    }
-  })
-  .catch((error) => {
-    console.error("Login error:", error);
-    alert("An error occurred. Please try again.");
-  });
+function Login() {
+  const [userType, setUserType] = useState("admin");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-
-const Login = ({ userType, onLogin }) => {
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    
+  const handleLogin = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/login`, {
-        method: 'POST',
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ userType, password }),
       });
-      
+
       const data = await response.json();
-      
-      if (!response.ok) {
-        setError(data.error || 'Invalid password');
-        return;
-      }
-      
-      if (data.success) {
-        onLogin(data.userType);
+
+      if (response.ok && data.success) {
+        localStorage.setItem("userType", userType);
+        navigate("/home");
+      } else {
+        alert(data.error || "Login failed. Please try again.");
       }
     } catch (error) {
-      setError('An error occurred. Please try again.');
+      console.error("Login error:", error);
+      alert("An error occurred. Please try again.");
     }
   };
 
   return (
     <div className="login-container">
-      <div className="login-box">
-        <div className="logo-container">
-          <img src="reel-cinemas-logo.png" alt="Reel Technical Operations Logo" className="login-logo" />
-          <h1 className="login-title">{userType.toUpperCase()}</h1>
-        </div>
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="login-input"
-            />
-          </div>
-          {error && <div className="error-message">{error}</div>}
-          <button type="submit" className="login-btn">
-            Sign In
-          </button>
-        </form>
-      </div>
+      <h2>Login</h2>
+      <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+        <option value="admin">Admin</option>
+        <option value="technician">Technician</option>
+      </select>
+      <input
+        type="password"
+        placeholder="Enter password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
-};
+}
 
 export default Login;
