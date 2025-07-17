@@ -1,11 +1,11 @@
+// src/App.js
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import UserTypeSelection from './components/UserTypeSelection';
 import Login from './components/Login';
 import Home from './components/Home';
 import Timeslot from './components/Timeslot';
 import Menu from './components/Menu';
-// import Status from './components/Status';
 import './App.css';
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
   const [userType, setUserType] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const [currentTime, setCurrentTime] = useState(new Date());
+  const navigate = useNavigate();
 
   // Update current time and timeslot every second
   useEffect(() => {
@@ -47,19 +48,23 @@ function App() {
 
   const handleUserTypeSelect = (type) => {
     setUserType(type);
+    navigate('/login');  // Navigate to login page
   };
 
   const handleLogin = (type) => {
     setIsLoggedIn(true);
     setUserType(type);
+    navigate('/home');  // Navigate to home page
   };
 
   const handleTimeslotClick = (timeslot) => {
     setCurrentTimeslot(timeslot);
+    navigate(`/timeslot/${timeslot}`);  // Navigate to timeslot page
   };
 
   const handleBackClick = () => {
     setCurrentTimeslot(null);
+    navigate('/home');  // Navigate back to home page
   };
 
   const handleLogout = () => {
@@ -67,6 +72,7 @@ function App() {
     setUserType(null);
     setUserEmail('');
     setCurrentTimeslot(null);
+    navigate('/');  // Navigate back to user type selection
   };
 
   return (
@@ -96,6 +102,13 @@ function App() {
               )
             ) : (
               <Navigate to="/home" />
+            )
+          } />
+          <Route path="/login" element={
+            !isLoggedIn && userType ? (
+              <Login userType={userType} onLogin={handleLogin} />
+            ) : (
+              <Navigate to="/" />
             )
           } />
           <Route path="/home" element={
