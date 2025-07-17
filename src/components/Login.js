@@ -1,67 +1,4 @@
 // src/components/Login.js
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import "./Login.css"; // if you have custom styling
-
-const Login = () => {
-  const [userType, setUserType] = useState("technician");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, {
-        userType,
-        password,
-      });
-
-      if (response.data.success) {
-        localStorage.setItem("userType", userType);
-        navigate("/home");
-      } else {
-        setError("Invalid credentials");
-      }
-    } catch (err) {
-      setError(err.response?.data?.error || "An error occurred. Please try again.");
-    }
-  };
-
-  return (
-    <div className="login-container">
-      <h1>REEL TECHNICAL OPERATIONS</h1>
-      <form onSubmit={handleSubmit}>
-        <select value={userType} onChange={(e) => setUserType(e.target.value)}>
-          <option value="technician">Technician</option>
-          <option value="admin">Admin</option>
-        </select>
-
-        <input
-          type="password"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button type="submit">Login</button>
-        {error && <p className="error">{error}</p>}
-      </form>
-    </div>
-  );
-};
-
-export default Login;
-
-
-
-/*
-// src/components/Login.js
 import React, { useState } from 'react';
 import './Login.css';
 import Menu from './Menu';
@@ -130,4 +67,3 @@ const Login = ({ userType, onLogin }) => {
 };
 
 export default Login;
-*/
