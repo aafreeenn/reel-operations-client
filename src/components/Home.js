@@ -6,18 +6,21 @@ import './Home.css';
 const Home = ({ userType, onTimeslotClick }) => {
   const navigate = useNavigate();
 
-  const getCurrentSlot = () => {
+  const getCurrentSlots = () => {
   const now = new Date();
   const hour = now.getHours();
   const minutes = now.getMinutes();
   const timeInMinutes = hour * 60 + minutes;
 
-  if (timeInMinutes >= 390 && timeInMinutes < 480) return '7am';    
-  if (timeInMinutes >= 870 && timeInMinutes < 960) return '3pm';    
-  if (timeInMinutes >= 1290 && timeInMinutes < 1380) return '10pm'; 
+  const activeSlots = [];
 
-  return null; 
+  if (timeInMinutes >= 390 && timeInMinutes < 480) activeSlots.push('7am');     // 6:30–8:00
+  if (timeInMinutes >= 870 && timeInMinutes < 960) activeSlots.push('3pm');     // 2:30–4:00
+  if (timeInMinutes >= 1290 && timeInMinutes < 1380) activeSlots.push('10pm');  // 9:30–11:00
+
+  return activeSlots;
 };
+
 
 
   const handleTimeslotClick = (slot) => {
@@ -59,26 +62,27 @@ const Home = ({ userType, onTimeslotClick }) => {
 
       <div className="timeslots">
         <button
-            onClick={() => handleTimeslotClick('7am')}
-            className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`}
-            disabled={currentSlot !== '7am'}
-          >
-            7 AM
-          </button>
-          <button
-            onClick={() => handleTimeslotClick('3pm')}
-            className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''}`}
-            disabled={currentSlot !== '3pm'}
-          >
-            3 PM
-          </button>
-          <button
-            onClick={() => handleTimeslotClick('10pm')}
-            className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''}`}
-            disabled={currentSlot !== '10pm'}
-          >
-            10 PM
+          onClick={() => handleTimeslotClick('7am')}
+          className={`timeslot-btn ${currentSlots.includes('7am') ? 'highlighted' : ''}`}
+          disabled={!currentSlots.includes('7am')}
+        >
+          7 AM
         </button>
+        <button
+          onClick={() => handleTimeslotClick('3pm')}
+          className={`timeslot-btn ${currentSlots.includes('3pm') ? 'highlighted' : ''}`}
+          disabled={!currentSlots.includes('3pm')}
+        >
+          3 PM
+        </button>
+        <button
+          onClick={() => handleTimeslotClick('10pm')}
+          className={`timeslot-btn ${currentSlots.includes('10pm') ? 'highlighted' : ''}`}
+          disabled={!currentSlots.includes('10pm')}
+        >
+          10 PM
+        </button>
+
 
       </div>
 
