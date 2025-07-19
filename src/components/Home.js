@@ -1,29 +1,33 @@
 // src/components/Home.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Home.css';
 
-const Home = ({ userType, onTimeslotClick }) => {
+const Home = ({ onTimeslotClick, userType }) => {
   const navigate = useNavigate();
 
-  const getCurrentSlots = () => {
-  const now = new Date();
-  const hour = now.getHours();
-  const minutes = now.getMinutes();
-  const timeInMinutes = hour * 60 + minutes;
+  const getCurrentSlot = () => {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 14) return '7am';
+    if (hour >= 14 && hour < 22) return '3pm';
+    return '10pm';
+  };
 
-  const activeSlots = [];
+  const isSlotAvailable = (slot) => {
+    const now = new Date();
+    const hour = now.getHours();
+    const min = now.getMinutes();
 
-  if (timeInMinutes >= 390 && timeInMinutes < 480) activeSlots.push('7am');     // 6:30–8:00
-  if (timeInMinutes >= 870 && timeInMinutes < 960) activeSlots.push('3pm');     // 2:30–4:00
-  if (timeInMinutes >= 1290 && timeInMinutes < 1380) activeSlots.push('10pm');  // 9:30–11:00
-
-  return activeSlots;
-};
-
-
+    if (slot === '7am') return hour >= 7 && hour < 9;
+    if (slot === '3pm') return hour >= 15 && hour < 17;
+    if (slot === '10pm') return hour >= 22 && hour < 24;
+    return false;
+  };
 
   const handleTimeslotClick = (slot) => {
+    if (!isSlotAvailable(slot)) {
+      alert(`This timeslot is only available between ${slot} and ${slot === '7am' ? '8:30 AM' : slot === '3pm' ? '4:30 PM' : '11:30 PM'}`);
+      return;
+    }
     onTimeslotClick(slot);
     navigate(`/timeslot/${slot}`);
   };
@@ -57,34 +61,30 @@ const Home = ({ userType, onTimeslotClick }) => {
     <div className="home-container">
       <div className="header">
         <h1>Reel Technical Operations</h1>
-        <p className="user-type">{userType.toUpperCase()}</p>
       </div>
 
       <div className="timeslots">
-                <button
-            onClick={() => handleTimeslotClick('7am')}
-            className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`}
-            disabled={currentSlot !== '7am'}
-          >
-            7 AM
-          </button>
-          <button
-            onClick={() => handleTimeslotClick('3pm')}
-            className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''}`}
-            disabled={currentSlot !== '3pm'}
-          >
-            3 PM
-          </button>
-          <button
-            onClick={() => handleTimeslotClick('10pm')}
-            className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''}`}
-            disabled={currentSlot !== '10pm'}
-          >
-            10 PM
+        <button
+          onClick={() => handleTimeslotClick('7am')}
+          className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''} ${!isSlotAvailable('7am') ? 'disabled' : ''}`}
+          disabled={!isSlotAvailable('7am')}
+        >
+          7 AM
         </button>
-
-
-
+        <button
+          onClick={() => handleTimeslotClick('3pm')}
+          className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''} ${!isSlotAvailable('3pm') ? 'disabled' : ''}`}
+          disabled={!isSlotAvailable('3pm')}
+        >
+          3 PM
+        </button>
+        <button
+          onClick={() => handleTimeslotClick('10pm')}
+          className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''} ${!isSlotAvailable('10pm') ? 'disabled' : ''}`}
+          disabled={!isSlotAvailable('10pm')}
+        >
+          10 PM
+        </button>
       </div>
 
       {userType === 'admin' && (
