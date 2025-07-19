@@ -7,11 +7,18 @@ const Home = ({ userType, onTimeslotClick }) => {
   const navigate = useNavigate();
 
   const getCurrentSlot = () => {
-    const hour = new Date().getHours();
-    if (hour >= 6 && hour < 14) return '7am';
-    if (hour >= 14 && hour < 22) return '3pm';
-    return '10pm';
-  };
+  const now = new Date();
+  const hour = now.getHours();
+  const minutes = now.getMinutes();
+  const timeInMinutes = hour * 60 + minutes;
+
+  if (timeInMinutes >= 390 && timeInMinutes < 480) return '7am';    
+  if (timeInMinutes >= 870 && timeInMinutes < 960) return '3pm';    
+  if (timeInMinutes >= 1290 && timeInMinutes < 1380) return '10pm'; 
+
+  return null; 
+};
+
 
   const handleTimeslotClick = (slot) => {
     onTimeslotClick(slot);
