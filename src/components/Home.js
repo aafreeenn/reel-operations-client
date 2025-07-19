@@ -61,27 +61,28 @@ const Home = ({ userType, onTimeslotClick }) => {
       </div>
 
       <div className="timeslots">
-        <button
-          onClick={() => handleTimeslotClick('7am')}
-          className={`timeslot-btn ${currentSlots.includes('7am') ? 'highlighted' : ''}`}
-          disabled={!currentSlots.includes('7am')}
-        >
-          7 AM
+                <button
+            onClick={() => handleTimeslotClick('7am')}
+            className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`}
+            disabled={currentSlot !== '7am'}
+          >
+            7 AM
+          </button>
+          <button
+            onClick={() => handleTimeslotClick('3pm')}
+            className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''}`}
+            disabled={currentSlot !== '3pm'}
+          >
+            3 PM
+          </button>
+          <button
+            onClick={() => handleTimeslotClick('10pm')}
+            className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''}`}
+            disabled={currentSlot !== '10pm'}
+          >
+            10 PM
         </button>
-        <button
-          onClick={() => handleTimeslotClick('3pm')}
-          className={`timeslot-btn ${currentSlots.includes('3pm') ? 'highlighted' : ''}`}
-          disabled={!currentSlots.includes('3pm')}
-        >
-          3 PM
-        </button>
-        <button
-          onClick={() => handleTimeslotClick('10pm')}
-          className={`timeslot-btn ${currentSlots.includes('10pm') ? 'highlighted' : ''}`}
-          disabled={!currentSlots.includes('10pm')}
-        >
-          10 PM
-        </button>
+
 
 
       </div>
