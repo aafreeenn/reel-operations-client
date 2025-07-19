@@ -72,12 +72,11 @@
   margin-bottom: 30px;
 }
 
-
 .activity-button {
-  background: #ede3f7; 
-  color: #d4b3e7;
+  background: #ede3f7;
+  color: #4a0d6e;
   padding: 16px;
-  border: 2px solid #5b0c94;
+  border: 2px solid #c4a0de;
   border-radius: 10px;
   font-size: 14px;
   cursor: pointer;
@@ -91,30 +90,34 @@
   box-shadow: 0 2px 6px rgba(110, 29, 156, 0.1);
 }
 
-.activity-button:hover:not(.selected):not(.deselected) {
-  background: #b8a0ce; 
-  border-color: #5b0c94;
+.activity-button:hover:not(.selected):not(.disabled) {
+  background: #d7b9f3;
+  border-color: #b185da;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(110, 29, 156, 0.2);
 }
 
-
-
-.activity-button.active {
-  background: #357e3b; 
-  border-color: #1b4c1f;
+.activity-button.selected {
+  background: #6e1d9c;
   color: white;
-}
-
-.activity-button.inactive {
-  background: #b12424; 
-  border-color: #811212;
-  color: white;
+  border-color: #5a1689;
 }
 
 .activity-button.selected:hover {
   background: #5a1689;
   transform: translateY(-2px);
+}
+
+.activity-button.active {
+  background: #c9a9dc;
+  border-color: #4a0d6e;
+  color: white;
+}
+
+.activity-button.inactive {
+  background: #8c30b3;
+  border-color: #8c30b3;
+  color: white;
 }
 
 .activity-button:disabled {
@@ -125,6 +128,17 @@
   cursor: not-allowed;
 }
 
+.activity-text {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.status-indicator {
+  font-size: 24px;
+  font-weight: bold;
+  display: block;
+  margin-top: 5px;
+}
 
 .name-input-container {
   display: flex;
