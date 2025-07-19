@@ -59,25 +59,27 @@ const Home = ({ userType, onTimeslotClick }) => {
 
       <div className="timeslots">
         <button
-          onClick={() => handleTimeslotClick('7am')}
-          className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''} disabled`}
-          disabled
-        >
-          7 AM
+            onClick={() => handleTimeslotClick('7am')}
+            className={`timeslot-btn ${currentSlot === '7am' ? 'highlighted' : ''}`}
+            disabled={currentSlot !== '7am'}
+          >
+            7 AM
+          </button>
+          <button
+            onClick={() => handleTimeslotClick('3pm')}
+            className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''}`}
+            disabled={currentSlot !== '3pm'}
+          >
+            3 PM
+          </button>
+          <button
+            onClick={() => handleTimeslotClick('10pm')}
+            className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''}`}
+            disabled={currentSlot !== '10pm'}
+          >
+            10 PM
         </button>
-        <button
-          onClick={() => handleTimeslotClick('3pm')}
-          className={`timeslot-btn ${currentSlot === '3pm' ? 'highlighted' : ''}`}
-        >
-          3 PM
-        </button>
-        <button
-          onClick={() => handleTimeslotClick('10pm')}
-          className={`timeslot-btn ${currentSlot === '10pm' ? 'highlighted' : ''} disabled`}
-          disabled
-        >
-          10 PM
-        </button>
+
       </div>
 
       {userType === 'admin' && (
