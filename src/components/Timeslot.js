@@ -52,15 +52,15 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to mark attendance');
+        throw new Error(errorData.error || 'Failed to submit report');
       }
 
-      alert('Attendance marked successfully!');
+      alert('submitted report successfully!');
       setSelectedStatuses({});
       setTechnicianName('');
     } catch (error) {
       console.error('Error details:', error);
-      alert('Error marking attendance: ' + error.message);
+      alert('Error in submitting report: ' + error.message);
     }
   };
 
@@ -72,7 +72,7 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'attendance_report.csv';
+      a.download = 'report.csv';
       document.body.appendChild(a);
       a.click();
       a.remove();
