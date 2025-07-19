@@ -97,3 +97,21 @@
     flex: 1;
   }
 }
+.clear-logs-btn {
+  background-color: #b30000;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 30px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.clear-logs-btn:hover {
+  background-color: #800000;
+}
+
+.admin-tools {
+  text-align: center;
+}

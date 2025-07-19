@@ -13,17 +13,32 @@ const Home = ({ userType, onTimeslotClick }) => {
     return '10pm';
   };
 
-  // Temporarily make 3pm button always available
-  const isSlotAvailable = (slot) => {
-    if (slot === '3pm') return true; // Always available
-    if (slot === '7am') return false; // Disabled
-    if (slot === '10pm') return false; // Disabled
-    return false;
-  };
-
   const handleTimeslotClick = (slot) => {
     onTimeslotClick(slot);
     navigate(`/timeslot/${slot}`);
+  };
+
+  const handleClearLogs = async () => {
+    if (!window.confirm("Are you sure you want to delete logs older than 3 months?")) return;
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/clear-logs`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to clear logs');
+      }
+
+      alert('Logs cleared successfully!');
+    } catch (error) {
+      alert('Error clearing logs: ' + error.message);
+    }
   };
 
   const currentSlot = getCurrentSlot();
@@ -34,6 +49,7 @@ const Home = ({ userType, onTimeslotClick }) => {
         <h1>Reel Technical Operations</h1>
         <p className="user-type">{userType.toUpperCase()}</p>
       </div>
+
       <div className="timeslots">
         <button
           onClick={() => handleTimeslotClick('7am')}
@@ -56,6 +72,14 @@ const Home = ({ userType, onTimeslotClick }) => {
           10 PM
         </button>
       </div>
+
+      {userType === 'admin' && (
+        <div className="admin-tools">
+          <button onClick={handleClearLogs} className="clear-logs-btn">
+            Clear Logs Older Than 3 Months
+          </button>
+        </div>
+      )}
     </div>
   );
 };
