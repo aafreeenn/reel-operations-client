@@ -55,7 +55,7 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
         throw new Error(errorData.error || 'Failed to submit report');
       }
 
-      alert('submitted report successfully!');
+      alert('Report submitted successfully!');
       setSelectedStatuses({});
       setTechnicianName('');
     } catch (error) {
@@ -116,9 +116,9 @@ const Timeslot = ({ timeslot, onBackClick, userType }) => {
             onClick={() => handleActivityClick(activity)}
             className="activity-button"
             style={{
-              backgroundColor: getStatusColor(selectedStatuses[activity]),
-              borderColor: getStatusColor(selectedStatuses[activity]),
+                backgroundColor: getStatusColor(selectedStatuses[activity]),
             }}
+
           >
             {activity}
           </button>
